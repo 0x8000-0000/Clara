@@ -37,3 +37,7 @@ endif()
 
 include(CTest)
 add_test(NAME RunTests COMMAND $<TARGET_FILE:ClaraTests>)
+
+# Make clara available to other modules
+add_library (clara INTERFACE)
+target_include_directories (clara INTERFACE include/)
