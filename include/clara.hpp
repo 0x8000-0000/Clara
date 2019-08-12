@@ -187,6 +187,8 @@ namespace detail {
 
     protected:
         ResultBase( Type type ) : m_type( type ) {}
+        ResultBase(const ResultBase& other) = default;
+        ResultBase& operator=(const ResultBase& other) = default;
         virtual ~ResultBase() = default;
 
         virtual void enforceOk() const = 0;
@@ -478,6 +480,10 @@ namespace detail {
         auto parse( Args const &args ) const -> InternalParseResult {
             return parse( args.exeName(), TokenStream( args ) );
         }
+
+        ParserBase& operator=(const ParserBase& other) = default;
+        ParserBase(const ParserBase& other) = default;
+        ParserBase() = default;
     };
 
     template<typename DerivedT>
@@ -488,6 +494,10 @@ namespace detail {
 
 		template<typename T>
         auto operator+( T const &other ) const -> Parser;
+
+      ComposableParserImpl() = default;
+      ComposableParserImpl(const ComposableParserImpl& other) = default;
+      ComposableParserImpl& operator=(const ComposableParserImpl& other) = default;
     };
 
     // Common code and state for Args and Opts
@@ -522,12 +532,12 @@ namespace detail {
         auto optional() -> DerivedT & {
             m_optionality = Optionality::Optional;
             return static_cast<DerivedT &>( *this );
-        };
+        }
 
         auto required() -> DerivedT & {
             m_optionality = Optionality::Required;
             return static_cast<DerivedT &>( *this );
-        };
+        }
 
         auto isOptional() const -> bool {
             return m_optionality == Optionality::Optional;
